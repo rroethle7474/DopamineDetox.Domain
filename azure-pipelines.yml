@@ -37,4 +37,4 @@ steps:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
-    publishVstsFeed: 'Nuget Packages/domain-models-services'
+    publishVstsFeed: 'NugetPackages/domain-models-services'
