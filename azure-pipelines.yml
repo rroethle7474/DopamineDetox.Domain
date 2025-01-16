@@ -1,19 +1,32 @@
 trigger:
-  - main  # or whatever your main branch is named
+  - main
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
-  Major: '0'
-  Minor: '0'
-  Patch: '1'
-  Version: $(Major).$(Minor).$(Patch)
 
 steps:
 - task: NuGetAuthenticate@1
   displayName: 'NuGet Authenticate'
+
+- task: PowerShell@2
+  name: SetVersion
+  inputs:
+    targetType: 'inline'
+    script: |
+      $csprojFile = Get-ChildItem -Path "$(Build.SourcesDirectory)" -Filter "*.csproj" -Recurse | Select-Object -First 1
+      if ($csprojFile) {
+          Write-Host "Found project file: $($csprojFile.FullName)"
+          [xml]$xml = Get-Content $csprojFile.FullName
+          $version = $xml.Project.PropertyGroup.PackageVersion
+          Write-Host "Found version: $version"
+          Write-Host "##vso[task.setvariable variable=PackageVersion]$version"
+      } else {
+          Write-Error "No .csproj file found!"
+          exit 1
+      }
   
 - task: DotNetCoreCLI@2
   displayName: 'Build'
@@ -28,7 +41,7 @@ steps:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     versioningScheme: 'byEnvVar'
-    versionEnvVar: 'Version'
+    versionEnvVar: 'PackageVersion'
     configuration: $(buildConfiguration)
 
 - task: NuGetCommand@2
