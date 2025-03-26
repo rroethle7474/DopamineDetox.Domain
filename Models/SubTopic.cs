@@ -8,6 +8,7 @@
         public string? Term { get; set; }
         public string? UserId { get; set; }
         public int TopicId { get; set; }
+        public bool ExcludeFromTwitter { get; set; }
         public Topic? Topic { get; set; }
         public User? User { get; set; }
     }

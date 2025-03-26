@@ -4,5 +4,6 @@
     {
         public int Id { get; set; }
         public string? Term { get; set; }
+        public bool ExcludeFromTwitter { get; set; }    
     }
 }

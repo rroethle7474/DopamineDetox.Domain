@@ -8,5 +8,7 @@ namespace DopamineDetox.Domain.Dtos
         public int Id { get; set; }
         [JsonPropertyName("term")]
         public string? Term { get; set; }
+        [JsonPropertyName("excludeFromTwitter")]
+        public bool ExcludeFromTwitter { get; set; }
     }
 }

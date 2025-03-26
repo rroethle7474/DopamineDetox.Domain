@@ -7,6 +7,7 @@
         public bool IsActive { get; set; } = true;
         public string Term { get; set; } = "";
         public string? UserId { get; set; }
+        public bool ExcludeFromTwitter { get; set; }
         public User? User { get; set; }
     }
 }
